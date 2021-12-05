@@ -4,107 +4,127 @@ using UnityEngine;
 
 public class UIMEnuBasics : MonoBehaviour
 {
-    [SerializeField]
-    int currentMenu = 1;
+    
+    public int currentMenu = 2;
     [SerializeField]
     GameObject[] Menus;
-    [SerializeField]
-    int desiredMenu = 1;
+   
+    public int desiredMenu = 2;
     public Transform removedLocation;
     public Transform presentLocation;
     public Transform transferLocation;
-    float speed = 1f;
-    float step;
+    [SerializeField]
+    float speed = 7f;
+    
     bool notInMotion;
+
+    bool halfWay;
+    
 
     void Start()
     {
         Menus = GameObject.FindGameObjectsWithTag("Menu");
-        Invoke("MenuCheck", 0.5f);
-        
-    }
-    void Update()
-    {
-        step = speed * Time.deltaTime;
-    }
 
-    void MenuCheck()
-    {
-        Debug.Log("MenuCheck Called");
-        if (notInMotion == false)
-        {
-            for (int x = 0; x == Menus.Length; x++)
-            {
-                Debug.Log("x is equal to" + x);
-                if (Menus[x].transform == presentLocation)
-                {
-                    currentMenu = x + 1;
-                }
-            }
-        }
-        Invoke("MenuMove", 0.5f);
-        
+        notInMotion = true;
     }
-
-    void MenuMove()
-    {
-        StartCoroutine(OffMove());
-        if (currentMenu == desiredMenu)
-        {
-            notInMotion = true;
-        }
-        
-    }
-    
     public void ChangeToMenu1()
     {
-        desiredMenu = 1;
+        desiredMenu = 0;
+        if (notInMotion == true)
+        {
+            StartCoroutine(OffMove());
+        }
     }
     public void ChangeToMenu2()
     {
-        desiredMenu = 2;
+        desiredMenu = 1;
+        if (notInMotion == true)
+        {
+            StartCoroutine(OffMove());
+        }
     }
     public void ChangeToMenu3()
     {
-        desiredMenu = 3;
+        desiredMenu = 2;
+        if (notInMotion == true)
+        {
+            StartCoroutine(OffMove());
+        }
     }
 
     IEnumerator OffMove()
     {
-        while (Menus[currentMenu].transform != removedLocation)
+        if (desiredMenu != currentMenu)
         {
-            notInMotion = false;
-            if (Menus[currentMenu].transform == presentLocation)
+            if (Menus[currentMenu].transform.position != removedLocation.position)
             {
-                Menus[currentMenu].transform.position = Vector3.MoveTowards(presentLocation.position, transferLocation.position, speed);
+                if (Menus[currentMenu].transform.position != removedLocation.position && halfWay == true)
+                {
+                    
+                    Menus[currentMenu].transform.position = Vector3.MoveTowards(Menus[currentMenu].transform.position, removedLocation.position, speed);
+                    yield return new WaitForSeconds(0.05f);
+                    StartCoroutine(OffMove());
+                }
+                else if (Menus[currentMenu].transform.position == transferLocation.position)
+                {
+                    halfWay = true;
+                    StartCoroutine(OffMove());
+                }
+                else if (Menus[currentMenu].transform.position != removedLocation.position && halfWay == false)
+                {
+                    
+                    notInMotion = false;
+                    Menus[currentMenu].transform.position = Vector3.MoveTowards(Menus[currentMenu].transform.position, transferLocation.position, speed);
+                    yield return new WaitForSeconds(0.05f);
+                    StartCoroutine(OffMove());
+                }
+                yield return new WaitForSeconds(0.05f);
             }
-            else if (Menus[currentMenu].transform == transferLocation)
+            else if (Menus[currentMenu].transform.position == removedLocation.position)
             {
-                Menus[currentMenu].transform.position = Vector3.MoveTowards(transferLocation.position, removedLocation.position, speed);
+                halfWay = false;
+                StartCoroutine(MoveOn());
             }
-
-            yield return new WaitForSeconds(0.1f);
         }
-        StartCoroutine(MoveOn());
         yield return new WaitForSeconds(0.1f);
-        Invoke("MenuCheck", 0.5f);
+        
     }
     IEnumerator MoveOn()
     {
-        notInMotion = false;
-        while (Menus[desiredMenu].transform != presentLocation)
+        
+        if (Menus[desiredMenu].transform.position != presentLocation.position)
         {
-            if (Menus[currentMenu].transform != presentLocation || Menus[currentMenu] != transferLocation)
+            
+            if (Menus[desiredMenu].transform.position != presentLocation.position && halfWay == true)
             {
-                Menus[currentMenu].transform.position = Vector3.MoveTowards(removedLocation.position, transferLocation.position, speed);
+                
+                Menus[desiredMenu].transform.position = Vector3.MoveTowards(Menus[desiredMenu].transform.position, presentLocation.position, speed);
+                yield return new WaitForSeconds(0.05f);
+                StartCoroutine(MoveOn());
+
             }
-            else if (Menus[currentMenu].transform == transferLocation)
+            else if (Menus[desiredMenu].transform.position == transferLocation.position)
             {
-                Menus[currentMenu].transform.position = Vector3.MoveTowards(transferLocation.position, presentLocation.position, speed);
+                halfWay = true;
+                StartCoroutine(MoveOn());
             }
-            yield return new WaitForSeconds(0.1f);
+            else if (Menus[desiredMenu].transform.position != presentLocation.position && halfWay == false)
+            {
+                notInMotion = false;
+                Menus[desiredMenu].transform.position = Vector3.MoveTowards(Menus[desiredMenu].transform.position, transferLocation.position, speed);
+                yield return new WaitForSeconds(0.05f);
+                StartCoroutine(MoveOn());
+            }
+            
+            yield return new WaitForSeconds(0.05f);
         }
-        yield return new WaitForSeconds(0.1f);
-        Invoke("MenuCheck", 0.5f);
+        else if(Menus[desiredMenu].transform.position == presentLocation.position)
+        {
+            notInMotion = true;
+            halfWay = false;
+            currentMenu = desiredMenu;
+        }
+        yield return new WaitForSeconds(0.05f);
+        
     }
 }
