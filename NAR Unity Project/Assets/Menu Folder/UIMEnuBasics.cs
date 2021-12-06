@@ -5,11 +5,11 @@ using UnityEngine;
 public class UIMEnuBasics : MonoBehaviour
 {
     
-    public int currentMenu = 2;
+    int currentMenu = 0;
     [SerializeField]
     GameObject[] Menus;
    
-    public int desiredMenu = 2;
+    int desiredMenu = 0;
     public Transform removedLocation;
     public Transform presentLocation;
     public Transform transferLocation;
