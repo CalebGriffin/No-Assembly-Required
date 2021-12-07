@@ -10,6 +10,7 @@ TagManager:
   - FirstFloor2
   - GroundFloor1
   - GroundFloor2
+  - Material
   layers:
   - Default
   - TransparentFX
