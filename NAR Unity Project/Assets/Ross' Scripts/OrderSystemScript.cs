@@ -9,7 +9,7 @@ public class OrderSystemScript : MonoBehaviour
     public GameObject orderTemplate;
     private class ToyOrder
     {
-        private string orderName = "";
+        public string orderName = "";
         private float timeLeft = 0.0f;
         private float timeGiven = 0.0f;
         private GameObject OrderUI;
@@ -30,23 +30,22 @@ public class OrderSystemScript : MonoBehaviour
             render = timeBar.GetComponent<Image>();
             UI.SetActive(true);
         }
+        public float getRatio()
+        {
+            return timeLeft / timeGiven;
+        }
         public void tick(float delta)
         {
             timeLeft = Mathf.Max(timeLeft - delta, 0.0f);
-
             float ratio = timeLeft / timeGiven;
-
             timeBar.transform.localScale = new Vector3(ratio, 1.0f, 1.0f);
-
             render.color = Color.HSVToRGB((120.0f * ratio % 360.0f) / 360.0f, 1.0f, 1.0f);
-
         }
         public void moveTo(Vector3 position,float delta)
         {
             Vector3 toward = position - this.OrderUI.transform.localPosition;
             this.OrderUI.transform.localPosition += toward * delta;
         }
-
         public void delete()
         {
             Destroy(this.OrderUI);
@@ -129,4 +128,22 @@ public class OrderSystemScript : MonoBehaviour
         }
     }
 
+    public bool completeOrder(string name)
+    {
+        for(int i = 0; i < orders.Count; i++)
+        {
+            ToyOrder order = orders[i];
+            if(order.orderName == name)
+            {
+                int points = Mathf.FloorToInt(10.0f * (1.0f + order.getRatio()) + 0.5f);
+
+                Debug.Log("Reward point!");
+
+                order.delete();
+                orders.RemoveAt(i);
+                return true; //A order was completed!
+            }
+        }
+        return false; //No order completed yet.
+    }
 }
