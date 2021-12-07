@@ -45,15 +45,31 @@ public class PlayerMovement : MonoBehaviour
         switch(other.GetComponent<Collider>().gameObject.tag)
         {
             case "FirstFloor1":
+                firstFloor1.SetActive(true);
+                characterController.enabled = false;
+                transform.position = new Vector3(14f, 7.5f, -7.2f);
+                characterController.enabled = true;
                 break;
 
             case "FirstFloor2":
+                firstFloor2.SetActive(true);
+                characterController.enabled = false;
+                transform.position = new Vector3(-13f, 7.5f, 7.2f);
+                characterController.enabled = true;
                 break;
 
             case "GroundFloor1":
+                characterController.enabled = false;
+                transform.position = new Vector3(9f, 2.2f, -7f);
+                characterController.enabled = true;
+                firstFloor1.SetActive(false);
                 break;
                 
             case "GroundFloor2":
+                characterController.enabled = false;
+                transform.position = new Vector3(-9f, 2.2f, 7f);
+                characterController.enabled = true;
+                firstFloor2.SetActive(false);
                 break;
 
             default:
