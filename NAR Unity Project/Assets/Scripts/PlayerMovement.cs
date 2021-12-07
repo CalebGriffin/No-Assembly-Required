@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,6 +11,13 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject firstFloor1;
     public GameObject firstFloor2;
+
+    private bool moveUp;
+    private bool moveDown;
+    private bool moveLeft;
+    private bool moveRight;
+
+    public Vector2 inputVec;
 
     void Start()
     {
@@ -22,22 +30,25 @@ public class PlayerMovement : MonoBehaviour
         // Applies gravity
         characterController.Move(-transform.up * 9.81f * Time.deltaTime);
 
-        if (Input.GetKey("up"))
-        {
-            characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
-        }
-        if (Input.GetKey("down"))
-        {
-            characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
-        }
-        if (Input.GetKey("left"))
-        {
-            characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
-        }
-        if (Input.GetKey("right"))
-        {
-            characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
-        } 
+        ActualMove();
+
+        // OLD INPUT SYSTEM
+        //if (moveUp)
+        //{
+            //characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
+        //}
+        //if (moveDown)
+        //{
+            //characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
+        //}
+        //if (moveLeft)
+        //{
+            //characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
+        //}
+        //if (moveRight)
+        //{
+            //characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
+        //} 
     }
 
     void OnTriggerEnter(Collider other)
@@ -75,5 +86,64 @@ public class PlayerMovement : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void OnMove(InputValue input)
+    {
+        inputVec = input.Get<Vector2>(); 
+
+        //if (inputVec.x > 3)
+        //{
+            //moveRight = true;
+            ////characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
+        //}
+        //else if (inputVec.x < 0)
+        //{
+            //moveLeft = true;
+            ////characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
+        //}
+        //else
+        //{
+            //moveRight = false;
+            //moveLeft = false;
+        //}
+
+        //if (inputVec.y > 0)
+        //{
+            //moveUp = true;
+            ////characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
+        //}
+        //else if (inputVec.y < 0)
+        //{
+            //moveDown = true;
+            ////characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
+        //}
+        //else
+        //{
+            //moveUp = false;
+            //moveDown = false;
+        //}
+    }
+
+    void ActualMove()
+    {
+        if (inputVec.x > 0)
+        {
+            characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
+        }
+        else if (inputVec.x < 0)
+        {
+            characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
+        }
+
+        if (inputVec.y > 0)
+        {
+            characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
+        }
+        else if (inputVec.y < 0)
+        {
+            characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
+        }
+
     }
 }
