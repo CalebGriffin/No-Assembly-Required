@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
 
+    public GameObject firstFloor1;
+    public GameObject firstFloor2;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -35,5 +38,26 @@ public class PlayerMovement : MonoBehaviour
         {
             characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
         } 
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        switch(other.GetComponent<Collider>().gameObject.tag)
+        {
+            case "FirstFloor1":
+                break;
+
+            case "FirstFloor2":
+                break;
+
+            case "GroundFloor1":
+                break;
+                
+            case "GroundFloor2":
+                break;
+
+            default:
+                break;
+        }
     }
 }

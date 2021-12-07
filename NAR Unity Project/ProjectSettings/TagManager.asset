@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Menu
   - Conveyor
+  - FirstFloor1
+  - FirstFloor2
+  - GroundFloor1
+  - GroundFloor2
   layers:
   - Default
   - TransparentFX
