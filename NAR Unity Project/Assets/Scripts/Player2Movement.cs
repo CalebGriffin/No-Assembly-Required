@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player2Movement : MonoBehaviour
 {
     private CharacterController characterController;
 
@@ -22,19 +22,19 @@ public class PlayerMovement : MonoBehaviour
         // Applies gravity
         characterController.Move(-transform.up * 9.81f * Time.deltaTime);
 
-        if (Input.GetKey("up"))
+        if (Input.GetKey(KeyCode.W))
         {
             characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
         }
-        if (Input.GetKey("down"))
+        if (Input.GetKey(KeyCode.S))
         {
             characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
         }
-        if (Input.GetKey("left"))
+        if (Input.GetKey("A"))
         {
             characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
         }
-        if (Input.GetKey("right"))
+        if (Input.GetKey("D"))
         {
             characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
         } 
