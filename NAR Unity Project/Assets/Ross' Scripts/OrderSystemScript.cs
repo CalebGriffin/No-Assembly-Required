@@ -17,6 +17,8 @@ public class OrderSystemScript : MonoBehaviour
         private GameObject timeBar;
         private Image render;
 
+        public bool isCompleted = false;
+
         public ToyOrder(string name,float time,GameObject UI)
         {
             orderName = name;
@@ -50,12 +52,19 @@ public class OrderSystemScript : MonoBehaviour
         {
             Destroy(this.OrderUI);
         }
+
+        public Vector3 getPosition()
+        {
+            return this.OrderUI.transform.localPosition;
+        }
     }
 
     private List<ToyOrder> orders = new List<ToyOrder>();
 
     float orderWIDTH = 0.0f;
     float orderHEIGHT = 0.0f;
+
+    private Dictionary<string, float> toyRewards = new Dictionary<string, float>();
 
     // Start is called before the first frame update
     void Start()
@@ -67,9 +76,18 @@ public class OrderSystemScript : MonoBehaviour
         orderWIDTH = (float)rect.rect.width * transform.localScale.x;
         orderHEIGHT = (float)rect.rect.height * transform.localScale.y;
 
+        //Points for each toy.
+        toyRewards.Add("Toy Car", 200.0f);
+        toyRewards.Add("Teddy Bear", 250.0f);
+        toyRewards.Add("Puppet", 150.0f);
+        toyRewards.Add("Building Blocks", 50.0f);
+
+        //TEST ORDER
+        //newOrder("Toy Car", 30.0f);
+
     }
 
-    private string[] toys = new string[3] { "Building Blocks", "Wooden Train", "Teddy Bear" };
+    private string[] toys = new string[2] { "Building Blocks", "Teddy Bear" };
 
     // Update is called once per frame
     void Update()
@@ -103,10 +121,23 @@ public class OrderSystemScript : MonoBehaviour
             float y = (float)(HEIGHT / 2) - Mathf.Floor((float)i / (float)rowCount) * orderHEIGHT;
 
             //Make it move to the appropriate position.
-            orders[i].moveTo(new Vector3(x, y, 0.0f), Time.deltaTime * 4.0f);
+            if (orders[i].isCompleted)
+                orders[i].moveTo(new Vector3((float)(WIDTH / - 2) + orderWIDTH * -2.0f, (float)(HEIGHT / 2), 0.0f), Time.deltaTime * 2.0f);
+            else
+                orders[i].moveTo(new Vector3(x, y, 0.0f), Time.deltaTime * 4.0f);
 
             //Do its tick logic.
             orders[i].tick(Time.deltaTime);
+        }
+
+        //Check for any orders that needs deleting.
+        for (int i = orders.Count - 1; i > -1; i--)
+        {
+            if (orders[i].isCompleted && orders[i].getPosition().x <= (float)Screen.currentResolution.width * -0.5f + -orderWIDTH * 1.5f)
+            {
+                orders[i].delete();
+                orders.RemoveAt(i);
+            }
         }
 
     }
@@ -135,12 +166,11 @@ public class OrderSystemScript : MonoBehaviour
             ToyOrder order = orders[i];
             if(order.orderName == name)
             {
-                int points = Mathf.FloorToInt(10.0f * (1.0f + order.getRatio()) + 0.5f);
+                int points = Mathf.FloorToInt(toyRewards[name] * (1.0f + order.getRatio()) + 0.5f);
 
-                Debug.Log("Reward point!");
+                Debug.Log("Reward point! " + points.ToString());
 
-                order.delete();
-                orders.RemoveAt(i);
+                order.isCompleted = true;
                 return true; //A order was completed!
             }
         }

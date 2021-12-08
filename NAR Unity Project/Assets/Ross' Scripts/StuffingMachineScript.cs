@@ -63,6 +63,13 @@ public class StuffingMachineScript : MonoBehaviour
             clicks++;
             if(clicks >= requiredClicks)
             {
+
+                //Change some properties of the flatten teddy bear.
+                //To make it seems like a stuffed one.
+                GameObject teddyBear = mountPoint.GetChild(0).gameObject;
+                teddyBear.name = "Teddy Bear";
+                teddyBear.transform.localScale = new Vector3(16.0f, 16.0f, 16.0f);
+
                 //Give the player a teddy bear instead!
                 Emitter.SetActive(false);
                 Stuffing = false;

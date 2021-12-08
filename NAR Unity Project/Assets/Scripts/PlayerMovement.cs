@@ -23,7 +23,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 inputVec;
 
     private Transform mountPoint;
-    public GameObject pickupItem;
 
     private bool isFrozen = false; //To stop players from moving away from crafting stations and such.
 
@@ -98,7 +97,6 @@ public class PlayerMovement : MonoBehaviour
                 atWorkbench = true;
                 break;
             case "StuffingMachine":
-                Debug.Log("LOLOL");
                 atStuffingMachine = true;
                 break;
             default:
@@ -162,8 +160,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (input.isPressed)
         {
-            if (pickupItem != null)
+
+            if (mountPoint.transform.childCount > 0)
             {
+                GameObject pickupItem = mountPoint.transform.GetChild(0).gameObject;
+
                 //Drop current item being held.
                 pickupItem.GetComponent<Rigidbody>().useGravity = true;
                 pickupItem.GetComponent<MeshCollider>().enabled = true;
@@ -202,11 +203,10 @@ public class PlayerMovement : MonoBehaviour
                 if(item != null)
                 {
                     //ITEM FOUND!!!
-                    pickupItem = item;
-                    pickupItem.transform.SetParent(mountPoint);
-                    pickupItem.GetComponent<Rigidbody>().useGravity = false;
-                    pickupItem.GetComponent<MeshCollider>().enabled = false;
-                    pickupItem.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    item.transform.SetParent(mountPoint);
+                    item.GetComponent<Rigidbody>().useGravity = false;
+                    item.GetComponent<MeshCollider>().enabled = false;
+                    item.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 }
             }
         }

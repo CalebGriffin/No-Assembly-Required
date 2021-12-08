@@ -22,6 +22,9 @@ public class CraftingTableScript : MonoBehaviour
         CraftingSystem.addRecipe(new List<string>() { "Planks", "Metal" }, GameObject.Find("Paint")); //THIS IS A TEST RECIPE!!!
         CraftingSystem.addRecipe(new List<string>() { "Oil", "Fabrics" }, GameObject.Find("Plastic"));
         CraftingSystem.addRecipe(new List<string>() { "Plastic" }, GameObject.Find("Building Blocks"));
+        CraftingSystem.addRecipe(new List<string>() { "String", "Fabrics" }, GameObject.Find("FlatTeddyBear"));
+        CraftingSystem.addRecipe(new List<string>() { "Planks", "Nails" }, GameObject.Find("UnpaintedToyCar"));
+        CraftingSystem.addRecipe(new List<string>() { "UnpaintedToyCar", "Paint" }, GameObject.Find("Toy Car"));
     }
 
     private float simTime = 0.0f;

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class IncideratorScript : MonoBehaviour
 {
+
+    public OrderSystemScript orderSystem;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,9 +18,19 @@ public class IncideratorScript : MonoBehaviour
         
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.tag.Equals("Material"))
-            Destroy(other.gameObject);
+        {
+            if (orderSystem != null)
+            {
+                if (orderSystem.completeOrder(other.gameObject.name))
+                    Destroy(other.gameObject);
+            }
+            else
+            {
+                Destroy(other.gameObject);
+            }
+        }
     }
 }
