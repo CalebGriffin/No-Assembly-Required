@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CraftingTableScript : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class CraftingTableScript : MonoBehaviour
 
     private ParticleSystem particle;
 
-    private GameObject result = null;
+    private GameObject result;
     private int clicks = 0;
     // Start is called before the first frame update
     void Start()
@@ -58,7 +59,7 @@ public class CraftingTableScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             if (result == null)
             {
@@ -69,7 +70,7 @@ public class CraftingTableScript : MonoBehaviour
                 clicksTime.Add(simTime);
                 clicks++;
             }
-        }
+        }*/
     }
 
     //This will be used to send to the crafting system, to be validated if it is a valid recipe.

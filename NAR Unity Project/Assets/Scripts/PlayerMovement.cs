@@ -19,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2 inputVec;
 
+    private GameObject pickupItem;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
@@ -90,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnMove(InputValue input)
     {
-        inputVec = input.Get<Vector2>(); 
+        inputVec = input.Get<Vector2>().normalized; 
 
         //if (inputVec.x > 3)
         //{
@@ -125,25 +127,65 @@ public class PlayerMovement : MonoBehaviour
         //}
     }
 
+    void OnPickup(InputValue input)
+    {
+        if (input.isPressed)
+        {
+            if (pickupItem != null)
+            {
+                //Drop current item being held.
+                pickupItem.GetComponent<Rigidbody>().useGravity = true;
+                pickupItem.transform.parent.SetParent(gameObject.transform.parent);
+            }
+            else
+            {
+
+                float closest = 4.0f; //Only allow minimum pickup range.
+                GameObject item = null;
+
+                Vector3 playerPos = new Vector3(transform.position.x, 0.0f, transform.position.z); //Eliminating any sort of height for now.
+
+                //Find an item to pickup, first use a radius search for all materials with material tag.
+                GameObject[] materials = GameObject.FindGameObjectsWithTag("Material");
+                foreach(GameObject material in materials)
+                {
+                    Vector3 itemPos = material.transform.position;
+
+                    //Check if it within field of view.
+                    if(Vector2.Dot(playerPos,new Vector3(itemPos.x,0.0f,itemPos.y)) >= 45.0f * Mathf.Deg2Rad)
+                    {
+                        float dist = (itemPos - playerPos).magnitude;
+                        if(dist < closest)
+                        {
+                            closest = dist;
+                            item = material;
+                        }
+                    }
+                }
+
+                if(item != null)
+                {
+                    //ITEM FOUND!!!
+                    pickupItem = item;
+                    pickupItem.transform.parent.SetParent(gameObject.transform);
+                    pickupItem.GetComponent<Rigidbody>().useGravity = false;
+                    pickupItem.transform.localPosition = transform.forward * 1.5f;
+                }
+            }
+        }
+    }
+
     void ActualMove()
     {
-        if (inputVec.x > 0)
+        if(inputVec != Vector2.zero) //Don't calculate a new rotation if input is zero.
         {
-            characterController.Move(transform.right * moveSpeed * Time.deltaTime); 
-        }
-        else if (inputVec.x < 0)
-        {
-            characterController.Move(-transform.right * moveSpeed * Time.deltaTime); 
-        }
+            //This calculates the angle the player need to look in based on input.
+            float angle = Mathf.Acos(Vector2.Dot(Vector2.up, inputVec)) * Mathf.Rad2Deg;
+            angle *= (inputVec.x < 0.0f ? -1.0f : 1.0f);
+            transform.localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
-        if (inputVec.y > 0)
-        {
-            characterController.Move(transform.forward * moveSpeed * Time.deltaTime); 
+            //Move them.
+            characterController.Move(transform.forward * moveSpeed * Time.deltaTime);
         }
-        else if (inputVec.y < 0)
-        {
-            characterController.Move(-transform.forward * moveSpeed * Time.deltaTime); 
-        }
-
     }
 }
