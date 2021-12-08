@@ -166,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
 
                 float FOV = 60.0f;
 
-                float closest = 3.0f; //Only allow minimum pickup range.
+                float closest = 3.5f; //Only allow minimum pickup range.
                 GameObject item = null;
 
                 Vector3 playerPos = new Vector3(transform.position.x, 0.0f, transform.position.z); //Eliminating any sort of height for now.

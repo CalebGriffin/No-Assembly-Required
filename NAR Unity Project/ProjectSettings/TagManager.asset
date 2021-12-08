@@ -13,6 +13,7 @@ TagManager:
   - Material
   - CraftingTable
   - Toys
+  - StuffingMachine
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Material
   - Water
   - UI
-  - 
+  - AntiPlayer
   - 
   - 
   - 
