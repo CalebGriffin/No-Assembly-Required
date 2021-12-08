@@ -75,7 +75,7 @@ public class OrderSystemScript : MonoBehaviour
     void Update()
     {
 
-        if (Input.GetKeyDown(KeyCode.A))
+        /*if (Input.GetKeyDown(KeyCode.A))
         {
             newOrder(toys[Random.Range(0, toys.Length - 1)], 15.0f);
         }
@@ -84,7 +84,7 @@ public class OrderSystemScript : MonoBehaviour
         {
             orders[0].delete();
             orders.RemoveAt(0);
-        }
+        }*/
 
         
 
