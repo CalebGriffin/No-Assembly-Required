@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     public CraftingTableScript Workbench;
+    public StuffingMachineScript StuffingMachine;
 
     public GameObject firstFloor1;
     public GameObject firstFloor2;
@@ -21,15 +22,18 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2 inputVec;
 
-    private GameObject pickupItem;
+    private Transform mountPoint;
+    public GameObject pickupItem;
 
     private bool isFrozen = false; //To stop players from moving away from crafting stations and such.
 
     private bool atWorkbench = false; //Are they in range of crafting table?
+    private bool atStuffingMachine = false; //Are they in range of stuffing machine?
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        mountPoint = gameObject.transform.Find("pickupItem");
     }
 
     // Update is called once per frame
@@ -93,7 +97,10 @@ public class PlayerMovement : MonoBehaviour
             case "CraftingTable":
                 atWorkbench = true;
                 break;
-
+            case "StuffingMachine":
+                Debug.Log("LOLOL");
+                atStuffingMachine = true;
+                break;
             default:
                 break;
         }
@@ -105,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
         {
             case "CraftingTable":
                 atWorkbench = false;
+                break;
+            case "StuffingMachine":
+                atStuffingMachine = false;
                 break;
             default:
                 break;
@@ -193,10 +203,10 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //ITEM FOUND!!!
                     pickupItem = item;
-                    pickupItem.transform.SetParent(gameObject.transform);
+                    pickupItem.transform.SetParent(mountPoint);
                     pickupItem.GetComponent<Rigidbody>().useGravity = false;
                     pickupItem.GetComponent<MeshCollider>().enabled = false;
-                    pickupItem.transform.localPosition = new Vector3(0.0f, 0.25f, 1.0f);
+                    pickupItem.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
                 }
             }
         }
@@ -208,6 +218,8 @@ public class PlayerMovement : MonoBehaviour
         {
             if(atWorkbench)
                 isFrozen = Workbench.useWorkbench();
+            else if(atStuffingMachine)
+                isFrozen = StuffingMachine.useMachine(gameObject);
         }
     }
 

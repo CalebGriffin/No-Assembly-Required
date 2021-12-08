@@ -1941,6 +1941,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1847540644256504777, guid: af6e07139022c43acb8e85a1296d3ba9, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6877925926624418152, guid: af6e07139022c43acb8e85a1296d3ba9, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -2005,6 +2009,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 6877925926624418153, guid: af6e07139022c43acb8e85a1296d3ba9, type: 3}
+      propertyPath: StuffingMachine
+      value: 
+      objectReference: {fileID: 919132148640636071}
     - target: {fileID: 6877925926624418164, guid: af6e07139022c43acb8e85a1296d3ba9, type: 3}
       propertyPath: m_Name
       value: Player
@@ -2345,7 +2353,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1569733692}
   - component: {fileID: 1569733693}
-  - component: {fileID: 1569733694}
   m_Layer: 0
   m_Name: Collision
   m_TagString: Untagged
@@ -2381,19 +2388,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &1569733694
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1569733691}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 2, z: 0.5}
-  m_Center: {x: 0.75, y: 0, z: 0}
 --- !u!1001 &1655749139
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3804,13 +3798,41 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 543450653183018524}
+  - component: {fileID: 919132148640636071}
+  - component: {fileID: 919132148640636072}
   m_Layer: 0
   m_Name: Stuffing Station
-  m_TagString: Untagged
+  m_TagString: StuffingMachine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148640636071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148640636070}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fb65ccd571bc914e86181f3a6bc4f7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Emitter: {fileID: 8974511663940967356}
+--- !u!65 &919132148640636072
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148640636070}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.75, y: 2, z: 0.75}
+  m_Center: {x: 1.125, y: 1, z: 0}
 --- !u!1 &1972259443185355102
 GameObject:
   m_ObjectHideFlags: 0
@@ -9163,7 +9185,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &8974511663940967358
 ParticleSystemRenderer:
   serializedVersion: 6

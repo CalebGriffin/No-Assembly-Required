@@ -63,19 +63,6 @@ public class CraftingTableScript : MonoBehaviour
                 result = null; //Set this back to null.
             }
         }
-
-        /*if (Input.GetKeyDown(KeyCode.E))
-        {
-            if (result == null)
-            {
-                attemptCraft();
-            }
-            else
-            {
-                clicksTime.Add(simTime);
-                clicks++;
-            }
-        }*/
     }
 
     //This will be used to send to the crafting system, to be validated if it is a valid recipe.
