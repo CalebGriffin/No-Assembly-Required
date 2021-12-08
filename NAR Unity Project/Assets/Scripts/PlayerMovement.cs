@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
 
+    public CraftingTableScript Workbench;
+
     public GameObject firstFloor1;
     public GameObject firstFloor2;
 
@@ -20,6 +22,10 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 inputVec;
 
     private GameObject pickupItem;
+
+    private bool isFrozen = false; //To stop players from moving away from crafting stations and such.
+
+    private bool atWorkbench = false; //Are they in range of crafting table?
 
     void Start()
     {
@@ -84,7 +90,22 @@ public class PlayerMovement : MonoBehaviour
                 characterController.enabled = true;
                 firstFloor2.SetActive(false);
                 break;
+            case "CraftingTable":
+                atWorkbench = true;
+                break;
 
+            default:
+                break;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        switch (other.gameObject.tag)
+        {
+            case "CraftingTable":
+                atWorkbench = false;
+                break;
             default:
                 break;
         }
@@ -135,12 +156,17 @@ public class PlayerMovement : MonoBehaviour
             {
                 //Drop current item being held.
                 pickupItem.GetComponent<Rigidbody>().useGravity = true;
-                pickupItem.transform.parent.SetParent(gameObject.transform.parent);
+                pickupItem.GetComponent<MeshCollider>().enabled = true;
+                pickupItem.transform.SetParent(null);
+
+                pickupItem = null;
             }
             else
             {
 
-                float closest = 4.0f; //Only allow minimum pickup range.
+                float FOV = 60.0f;
+
+                float closest = 3.0f; //Only allow minimum pickup range.
                 GameObject item = null;
 
                 Vector3 playerPos = new Vector3(transform.position.x, 0.0f, transform.position.z); //Eliminating any sort of height for now.
@@ -152,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
                     Vector3 itemPos = material.transform.position;
 
                     //Check if it within field of view.
-                    if(Vector2.Dot(playerPos,new Vector3(itemPos.x,0.0f,itemPos.y)) >= 45.0f * Mathf.Deg2Rad)
+                    if(Vector2.Dot(new Vector3(itemPos.x, 0.0f, itemPos.y) - playerPos,transform.forward) >= Mathf.Cos((90.0f - (FOV * 0.5f)) * Mathf.Deg2Rad))
                     {
                         float dist = (itemPos - playerPos).magnitude;
                         if(dist < closest)
@@ -167,17 +193,27 @@ public class PlayerMovement : MonoBehaviour
                 {
                     //ITEM FOUND!!!
                     pickupItem = item;
-                    pickupItem.transform.parent.SetParent(gameObject.transform);
+                    pickupItem.transform.SetParent(gameObject.transform);
                     pickupItem.GetComponent<Rigidbody>().useGravity = false;
-                    pickupItem.transform.localPosition = transform.forward * 1.5f;
+                    pickupItem.GetComponent<MeshCollider>().enabled = false;
+                    pickupItem.transform.localPosition = new Vector3(0.0f, 0.25f, 1.0f);
                 }
             }
         }
     }
 
+    void OnUseMachine(InputValue input)
+    {
+        if (input.isPressed)
+        {
+            if(atWorkbench)
+                isFrozen = Workbench.useWorkbench();
+        }
+    }
+
     void ActualMove()
     {
-        if(inputVec != Vector2.zero) //Don't calculate a new rotation if input is zero.
+        if(inputVec != Vector2.zero && !isFrozen) //Don't calculate a new rotation if input is zero.
         {
             //This calculates the angle the player need to look in based on input.
             float angle = Mathf.Acos(Vector2.Dot(Vector2.up, inputVec)) * Mathf.Rad2Deg;

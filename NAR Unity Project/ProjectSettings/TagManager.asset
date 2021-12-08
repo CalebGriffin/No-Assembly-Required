@@ -11,11 +11,13 @@ TagManager:
   - GroundFloor1
   - GroundFloor2
   - Material
+  - CraftingTable
+  - Toys
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Material
   - Water
   - UI
   - 

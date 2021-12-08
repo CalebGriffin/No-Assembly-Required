@@ -33,6 +33,14 @@ public class @Player : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""UseMachine"",
+                    ""type"": ""Button"",
+                    ""id"": ""576427b2-0a96-4fcf-8105-ff221c52ed82"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -61,7 +69,7 @@ public class @Player : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""5f2f2e85-aaf9-4dea-8cd2-60bc839b6c67"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -83,7 +91,7 @@ public class @Player : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""4bc71e1e-1a07-4ad1-be3c-c4987c4831fa"",
-                    ""path"": ""<Keyboard>/s"",
+                    ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
@@ -110,6 +118,39 @@ public class @Player : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0163c42-b434-4f60-b99a-07548bf6909a"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pickup"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a34daf74-6b6a-4f37-b163-8d1216bbba4e"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseMachine"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""461ba867-2501-4d71-9d1c-4ccc3d63ba76"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UseMachine"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -145,6 +186,7 @@ public class @Player : IInputActionCollection, IDisposable
         m_PlayerMovement = asset.FindActionMap("PlayerMovement", throwIfNotFound: true);
         m_PlayerMovement_Move = m_PlayerMovement.FindAction("Move", throwIfNotFound: true);
         m_PlayerMovement_Pickup = m_PlayerMovement.FindAction("Pickup", throwIfNotFound: true);
+        m_PlayerMovement_UseMachine = m_PlayerMovement.FindAction("UseMachine", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -196,12 +238,14 @@ public class @Player : IInputActionCollection, IDisposable
     private IPlayerMovementActions m_PlayerMovementActionsCallbackInterface;
     private readonly InputAction m_PlayerMovement_Move;
     private readonly InputAction m_PlayerMovement_Pickup;
+    private readonly InputAction m_PlayerMovement_UseMachine;
     public struct PlayerMovementActions
     {
         private @Player m_Wrapper;
         public PlayerMovementActions(@Player wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_PlayerMovement_Move;
         public InputAction @Pickup => m_Wrapper.m_PlayerMovement_Pickup;
+        public InputAction @UseMachine => m_Wrapper.m_PlayerMovement_UseMachine;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMovement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -217,6 +261,9 @@ public class @Player : IInputActionCollection, IDisposable
                 @Pickup.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickup;
                 @Pickup.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickup;
                 @Pickup.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnPickup;
+                @UseMachine.started -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnUseMachine;
+                @UseMachine.performed -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnUseMachine;
+                @UseMachine.canceled -= m_Wrapper.m_PlayerMovementActionsCallbackInterface.OnUseMachine;
             }
             m_Wrapper.m_PlayerMovementActionsCallbackInterface = instance;
             if (instance != null)
@@ -227,6 +274,9 @@ public class @Player : IInputActionCollection, IDisposable
                 @Pickup.started += instance.OnPickup;
                 @Pickup.performed += instance.OnPickup;
                 @Pickup.canceled += instance.OnPickup;
+                @UseMachine.started += instance.OnUseMachine;
+                @UseMachine.performed += instance.OnUseMachine;
+                @UseMachine.canceled += instance.OnUseMachine;
             }
         }
     }
@@ -253,5 +303,6 @@ public class @Player : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnPickup(InputAction.CallbackContext context);
+        void OnUseMachine(InputAction.CallbackContext context);
     }
 }

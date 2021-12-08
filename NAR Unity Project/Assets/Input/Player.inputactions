@@ -20,6 +20,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "UseMachine",
+                    "type": "Button",
+                    "id": "576427b2-0a96-4fcf-8105-ff221c52ed82",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -48,7 +56,7 @@
                 {
                     "name": "down",
                     "id": "5f2f2e85-aaf9-4dea-8cd2-60bc839b6c67",
-                    "path": "<Keyboard>/r",
+                    "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -70,7 +78,7 @@
                 {
                     "name": "right",
                     "id": "4bc71e1e-1a07-4ad1-be3c-c4987c4831fa",
-                    "path": "<Keyboard>/s",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
@@ -97,6 +105,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0163c42-b434-4f60-b99a-07548bf6909a",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pickup",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a34daf74-6b6a-4f37-b163-8d1216bbba4e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseMachine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "461ba867-2501-4d71-9d1c-4ccc3d63ba76",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "UseMachine",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
