@@ -61,6 +61,8 @@ public class OrderSystemScript : MonoBehaviour
 
     private List<ToyOrder> orders = new List<ToyOrder>();
 
+    public TimerScript timer;
+
     float orderWIDTH = 0.0f;
     float orderHEIGHT = 0.0f;
 
@@ -82,12 +84,25 @@ public class OrderSystemScript : MonoBehaviour
         toyRewards.Add("Puppet", 150.0f);
         toyRewards.Add("Building Blocks", 50.0f);
 
-        //TEST ORDER
-        //newOrder("Toy Car", 30.0f);
+        score = 0;
+        //Start Timer.
+        timer.startTimer(300);
+
+        //Level 1 orders.
+        deleteOrders();
+
+        GiveOrders();
 
     }
 
     private string[] toys = new string[2] { "Building Blocks", "Teddy Bear" };
+    private void GiveOrders()
+    {
+
+        newOrder(toys[(int)Random.Range(0,toys.Length - 1)], 30.0f);
+
+        Invoke("GiveOrders", 15.0f);
+    }
 
     // Update is called once per frame
     void Update()
@@ -159,6 +174,7 @@ public class OrderSystemScript : MonoBehaviour
         }
     }
 
+    public int score;
     public bool completeOrder(string name)
     {
         for(int i = 0; i < orders.Count; i++)
@@ -166,9 +182,7 @@ public class OrderSystemScript : MonoBehaviour
             ToyOrder order = orders[i];
             if(order.orderName == name)
             {
-                int points = Mathf.FloorToInt(toyRewards[name] * (1.0f + order.getRatio()) + 0.5f);
-
-                Debug.Log("Reward point! " + points.ToString());
+                score += Mathf.FloorToInt(toyRewards[name] * (1.0f + order.getRatio()) + 0.5f);
 
                 order.isCompleted = true;
                 return true; //A order was completed!

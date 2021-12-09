@@ -9,6 +9,10 @@ public class TimerScript : MonoBehaviour
     private float timeLeft = 0.0f;
     private bool resumeTimer = false;
 
+    [SerializeField] private GameObject Scoreboard;
+    [SerializeField] private Text pointsText;
+    [SerializeField] private OrderSystemScript orderSystem;
+
     private Text text;
     // Start is called before the first frame update
     void Start()
@@ -27,7 +31,8 @@ public class TimerScript : MonoBehaviour
             timeLeft -= Time.deltaTime;
             if (timeLeft <= 0.0f)
             {
-                Debug.Log("TIME'S UP!");
+                Scoreboard.SetActive(true);
+                pointsText.text = "Time is up\nFinal score\n" + orderSystem.score.ToString();
                 resumeTimer = false;
             }
             else
