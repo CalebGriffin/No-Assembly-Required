@@ -175,9 +175,9 @@ public class PlayerMovement : MonoBehaviour
             else
             {
 
-                float FOV = 60.0f;
+                float FOV = 45.0f;
 
-                float closest = 3.5f; //Only allow minimum pickup range.
+                float closest = 6.0f; //Only allow minimum pickup range.
                 GameObject item = null;
 
                 Vector3 playerPos = new Vector3(transform.position.x, 0.0f, transform.position.z); //Eliminating any sort of height for now.
@@ -188,15 +188,14 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Vector3 itemPos = material.transform.position;
 
-                    //Check if it within field of view.
-                    if(Vector2.Dot(new Vector3(itemPos.x, 0.0f, itemPos.y) - playerPos,transform.forward) >= Mathf.Cos((90.0f - (FOV * 0.5f)) * Mathf.Deg2Rad))
+                    itemPos = new Vector3(itemPos.x, 0.0f, itemPos.y);
+
+                    Debug.Log("WITHIN VIEW!");
+                    float dist = (itemPos - playerPos).magnitude;
+                    if(dist < closest)
                     {
-                        float dist = (itemPos - playerPos).magnitude;
-                        if(dist < closest)
-                        {
-                            closest = dist;
-                            item = material;
-                        }
+                        closest = dist;
+                        item = material;
                     }
                 }
 
