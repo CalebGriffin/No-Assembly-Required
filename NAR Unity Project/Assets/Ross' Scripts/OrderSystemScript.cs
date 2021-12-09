@@ -91,17 +91,27 @@ public class OrderSystemScript : MonoBehaviour
         //Level 1 orders.
         deleteOrders();
 
-        GiveOrders();
+        GiveOrders(new List<string>() {
+            "Building Blocks",
+            "Teddy Bear",
+            "Teddy Bear",
+            "Building Blocks",
+            "Toy Car",
+            "Teddy Bear",
+            "Building Blocks",
+            "Toy Car"
+        });
 
     }
-
-    private string[] toys = new string[2] { "Building Blocks", "Teddy Bear" };
-    private void GiveOrders()
+    private void GiveOrders(List<string> orders)
     {
 
-        newOrder(toys[(int)Random.Range(0,toys.Length - 1)], 30.0f);
-
-        Invoke("GiveOrders", 15.0f);
+        if (orders.Count > 0)
+        {
+            newOrder(orders[0], 50.0f);
+            orders.RemoveAt(0);
+            Invoke("GiveOrders", 20.0f);
+        }
     }
 
     // Update is called once per frame

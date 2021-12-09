@@ -68,7 +68,8 @@ public class StuffingMachineScript : MonoBehaviour
                 //To make it seems like a stuffed one.
                 GameObject teddyBear = mountPoint.GetChild(0).gameObject;
                 teddyBear.name = "Teddy Bear";
-                teddyBear.transform.localScale = new Vector3(16.0f, 16.0f, 16.0f);
+                Vector3 scale = teddyBear.transform.localScale;
+                teddyBear.transform.localScale = new Vector3(scale.x, scale.y * 3.0f, scale.z);
 
                 //Give the player a teddy bear instead!
                 Emitter.SetActive(false);

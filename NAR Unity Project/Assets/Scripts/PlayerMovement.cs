@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private float moveSpeed;
 
-    public CraftingTableScript Workbench;
-    public StuffingMachineScript StuffingMachine;
+    private CraftingTableScript Workbench;
+    private StuffingMachineScript StuffingMachine;
 
     public GameObject firstFloor1;
     public GameObject firstFloor2;
@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Vector2 inputVec;
 
-    private Transform mountPoint;
+    [SerializeField] private Transform mountPoint;
 
     private bool isFrozen = false; //To stop players from moving away from crafting stations and such.
 
@@ -36,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        mountPoint = gameObject.transform.Find("pickupItem");
 
         firstFloor1 = GameObject.Find("First Floor (1)");
         firstFloor2 = GameObject.Find("First Floor (2)");
@@ -118,9 +117,11 @@ public class PlayerMovement : MonoBehaviour
                 break;
             case "CraftingTable":
                 atWorkbench = true;
+                Workbench = other.gameObject.transform.parent.gameObject.GetComponent<CraftingTableScript>();
                 break;
             case "StuffingMachine":
                 atStuffingMachine = true;
+                StuffingMachine = other.gameObject.GetComponent<StuffingMachineScript>();
                 break;
             default:
                 break;
@@ -211,9 +212,8 @@ public class PlayerMovement : MonoBehaviour
                 {
                     Vector3 itemPos = material.transform.position;
 
-                    itemPos = new Vector3(itemPos.x, 0.0f, itemPos.y);
+                    itemPos = new Vector3(itemPos.x, 0.0f, itemPos.z);
 
-                    Debug.Log("WITHIN VIEW!");
                     float dist = (itemPos - playerPos).magnitude;
                     if(dist < closest)
                     {
@@ -238,9 +238,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (input.isPressed)
         {
-            if(atWorkbench)
+            if(atWorkbench && Workbench != null)
                 isFrozen = Workbench.useWorkbench();
-            else if(atStuffingMachine)
+            else if(atStuffingMachine && StuffingMachine != null)
                 isFrozen = StuffingMachine.useMachine(gameObject);
         }
     }

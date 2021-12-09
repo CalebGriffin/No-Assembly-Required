@@ -131,7 +131,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.5
-  m_SlopeLimit: 45
+  m_SlopeLimit: 80
   m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -149,11 +149,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  Workbench: {fileID: 0}
-  StuffingMachine: {fileID: 0}
   firstFloor1: {fileID: 0}
   firstFloor2: {fileID: 0}
   inputVec: {x: 0, y: 0}
+  mountPoint: {fileID: 1847540644256504777}
   allPlayers: []
   player1Mat: {fileID: 2100000, guid: d107c30224735c147affe6b8aad3b462, type: 2}
   player2Mat: {fileID: 2100000, guid: 68d5d463f49a5dc4aa5b5c11e969d535, type: 2}

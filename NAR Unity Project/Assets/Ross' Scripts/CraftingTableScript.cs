@@ -19,7 +19,8 @@ public class CraftingTableScript : MonoBehaviour
         craftingEmitter = gameObject.transform.GetChild(0).gameObject;
         particle = craftingEmitter.GetComponent<ParticleSystem>();
 
-        CraftingSystem.addRecipe(new List<string>() { "Planks", "Metal" }, GameObject.Find("Paint")); //THIS IS A TEST RECIPE!!!
+        CraftingSystem.addRecipe(new List<string>() { "Oil" }, GameObject.Find("Paint"));
+        CraftingSystem.addRecipe(new List<string>() { "Metal" }, GameObject.Find("Nails"));
         CraftingSystem.addRecipe(new List<string>() { "Oil", "Fabrics" }, GameObject.Find("Plastic"));
         CraftingSystem.addRecipe(new List<string>() { "Plastic" }, GameObject.Find("Building Blocks"));
         CraftingSystem.addRecipe(new List<string>() { "String", "Fabrics" }, GameObject.Find("FlatTeddyBear"));
@@ -59,7 +60,7 @@ public class CraftingTableScript : MonoBehaviour
 
                 //Success! place it on the table.
                 GameObject craftedItem = Instantiate(result);
-                craftedItem.transform.position = this.gameObject.transform.position + new Vector3(0.0f, 1.25f, 0.0f);
+                craftedItem.transform.position = this.gameObject.transform.position + new Vector3(0.0f, 2.5f, 0.0f);
                 craftedItem.name = result.name;
                 craftedItem.SetActive(true);
 
@@ -85,12 +86,11 @@ public class CraftingTableScript : MonoBehaviour
         if (result == null)
         {
 
-            List<GameObject> validIngredients = new List<GameObject>();
-            for (int i = ingredients.Count - 1; i > -1; i--)
-                if (ingredients[i].transform.parent == null)
-                    validIngredients.Add(ingredients[i]);
+            for (int i = 0; i < ingredients.Count; i++)
+                Debug.Log(ingredients[i].name);
 
             result = CraftingSystem.craftWith(ingredients);
+            Debug.Log("Crafting: " + result + " with " + ingredients.Count);
             if (result != null)
             {
                 craftingEmitter.SetActive(true);
