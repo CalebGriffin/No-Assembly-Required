@@ -214,11 +214,14 @@ public class PlayerMovement : MonoBehaviour
 
                     itemPos = new Vector3(itemPos.x, 0.0f, itemPos.z);
 
-                    float dist = (itemPos - playerPos).magnitude;
-                    if(dist < closest)
+                    if (Vector3.Dot((itemPos - playerPos).normalized, transform.forward) >= Mathf.Cos((90.0f - FOV) * 0.5f * Mathf.Deg2Rad))
                     {
-                        closest = dist;
-                        item = material;
+                        float dist = (itemPos - playerPos).magnitude;
+                        if (dist < closest)
+                        {
+                            closest = dist;
+                            item = material;
+                        }
                     }
                 }
 

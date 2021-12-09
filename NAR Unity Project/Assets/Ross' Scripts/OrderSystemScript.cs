@@ -91,7 +91,7 @@ public class OrderSystemScript : MonoBehaviour
         //Level 1 orders.
         deleteOrders();
 
-        GiveOrders(new List<string>() {
+        levelOrders = new List<string>() {
             "Building Blocks",
             "Teddy Bear",
             "Teddy Bear",
@@ -100,17 +100,20 @@ public class OrderSystemScript : MonoBehaviour
             "Teddy Bear",
             "Building Blocks",
             "Toy Car"
-        });
-
+        };
+        GiveOrders();
     }
-    private void GiveOrders(List<string> orders)
+
+    private List<string> levelOrders;
+
+    private void GiveOrders()
     {
 
-        if (orders.Count > 0)
+        if (levelOrders.Count > 0)
         {
-            newOrder(orders[0], 50.0f);
-            orders.RemoveAt(0);
-            Invoke("GiveOrders", 20.0f);
+            newOrder(levelOrders[0], 90.0f);
+            levelOrders.RemoveAt(0);
+            Invoke("GiveOrders", 45.0f);
         }
     }
 
