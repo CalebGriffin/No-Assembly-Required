@@ -86,7 +86,7 @@ public class OrderSystemScript : MonoBehaviour
 
         score = 0;
         //Start Timer.
-        timer.startTimer(300);
+        timer.startTimer(240);
 
         //Level 1 orders.
         deleteOrders();

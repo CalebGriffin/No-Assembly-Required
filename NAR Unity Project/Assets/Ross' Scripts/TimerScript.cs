@@ -10,6 +10,7 @@ public class TimerScript : MonoBehaviour
     private bool resumeTimer = false;
 
     [SerializeField] private GameObject Scoreboard;
+    [SerializeField] private GameObject scoreboardBackground;
     [SerializeField] private Text pointsText;
     [SerializeField] private OrderSystemScript orderSystem;
 
@@ -32,6 +33,7 @@ public class TimerScript : MonoBehaviour
             if (timeLeft <= 0.0f)
             {
                 Scoreboard.SetActive(true);
+                scoreboardBackground.SetActive(true);
                 pointsText.text = "Time is up\nFinal score\n" + orderSystem.score.ToString();
                 resumeTimer = false;
             }
