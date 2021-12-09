@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 6877925926624418159}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,7 +153,9 @@ MonoBehaviour:
   firstFloor1: {fileID: 0}
   firstFloor2: {fileID: 0}
   inputVec: {x: 0, y: 0}
-  pickupItem: {fileID: 0}
+  allPlayers: []
+  player1Mat: {fileID: 2100000, guid: d107c30224735c147affe6b8aad3b462, type: 2}
+  player2Mat: {fileID: 2100000, guid: 68d5d463f49a5dc4aa5b5c11e969d535, type: 2}
 --- !u!114 &6877925926624418158
 MonoBehaviour:
   m_ObjectHideFlags: 0

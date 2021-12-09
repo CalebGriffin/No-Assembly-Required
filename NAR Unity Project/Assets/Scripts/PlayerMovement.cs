@@ -29,10 +29,33 @@ public class PlayerMovement : MonoBehaviour
     private bool atWorkbench = false; //Are they in range of crafting table?
     private bool atStuffingMachine = false; //Are they in range of stuffing machine?
 
+    [SerializeField] private GameObject[] allPlayers;
+    public Material player1Mat;
+    public Material player2Mat;
+
     void Start()
     {
         characterController = GetComponent<CharacterController>();
         mountPoint = gameObject.transform.Find("pickupItem");
+
+        firstFloor1 = GameObject.Find("First Floor (1)");
+        firstFloor2 = GameObject.Find("First Floor (2)");
+
+        allPlayers = GameObject.FindGameObjectsWithTag("Player");
+        if (allPlayers.Length > 1)
+        {
+            GetComponent<Renderer>().material = player2Mat;
+            characterController.enabled = false;
+            transform.position = new Vector3(0f, 2.2f, 5f);
+            characterController.enabled = true;
+        }
+        else
+        {
+            GetComponent<Renderer>().material = player1Mat;
+            characterController.enabled = false;
+            transform.position = new Vector3(0f, 2.2f, -5f);
+            characterController.enabled = true;
+        }
     }
 
     // Update is called once per frame
@@ -64,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        switch(other.GetComponent<Collider>().gameObject.tag)
+        switch(other.gameObject.tag)
         {
             case "FirstFloor1":
                 firstFloor1.SetActive(true);
